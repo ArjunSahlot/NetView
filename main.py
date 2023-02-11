@@ -3,13 +3,15 @@ from constants import *
 
 
 # Window Management
-WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+WINDOW = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Game")
 
 
 def main(window):
     pygame.init()
     clock = pygame.time.Clock()
+    width, height = WIDTH, HEIGHT
+    resized = False
 
     while True:
         clock.tick(FPS)
@@ -21,10 +23,21 @@ def main(window):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
-            if event.type == pygame.KEYDOWN:
+
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q and ctrl_pressed:
                     pygame.quit()
                     return
+
+            elif event.type == pygame.VIDEORESIZE:
+                last_width, last_height = width, height
+                width, height = event.w, event.h
+                resized = True
+
+            elif event.type == pygame.ACTIVEEVENT and resized and width != last_width and height != last_height:
+                window = pygame.display.set_mode((width, height), pygame.RESIZABLE)
+                resized = False
+
         pygame.display.update()
 
 
