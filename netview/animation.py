@@ -1,21 +1,23 @@
 import pygame
-from constants import *
+from image import generate_image
 
+FPS = 90
 
 # Window Management
-WINDOW = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+a = generate_image([3, 6, 10, 4], False)
+width, height = a[0], a[1]
+WINDOW = pygame.display.set_mode(a, pygame.RESIZABLE)
 pygame.display.set_caption("Game")
 
 
 def main(window):
     pygame.init()
     clock = pygame.time.Clock()
-    width, height = WIDTH, HEIGHT
     resized = False
 
     while True:
         clock.tick(FPS)
-        window.fill(WHITE)
+        window.fill((255, 255, 255))
         events = pygame.event.get()
         keys = pygame.key.get_pressed()
         ctrl_pressed = keys[pygame.K_LCTRL] or keys[pygame.K_RCTRL]
